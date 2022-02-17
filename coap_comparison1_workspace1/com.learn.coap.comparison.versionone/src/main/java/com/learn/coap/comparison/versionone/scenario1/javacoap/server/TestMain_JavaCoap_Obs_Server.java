@@ -19,7 +19,7 @@ public class TestMain_JavaCoap_Obs_Server {
 	
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		int statusUpdateMaxTimes = 30;
+		int statusUpdateMaxTimes = 60;
 		
 	    String resourceName     = "/hello_observer";			// resourceName 	vs topic
 	    String brokerAddress  	= "127.0.0.1";				// broker address

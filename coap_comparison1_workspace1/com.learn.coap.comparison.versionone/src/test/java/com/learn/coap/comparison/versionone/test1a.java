@@ -37,8 +37,8 @@ class test1a {
 	
 	@AfterAll
 	static void toEnd() {
-		System.out.println("cf total starttime:"+timeRs_testCfObs.get("startTime")+"/endtime:"+timeRs_testCfObs.get("endTime")+"/usedtime:"+timeRs_testCfObs.get("usedTime")+"/usedtime_sec:"+timeRs_testCfObs.get("usedTime_sec"));
-		System.out.println("jc total starttime:"+timeRs_testJavaCoapObs.get("startTime")+"/endtime:"+timeRs_testJavaCoapObs.get("endTime")+"/usedtime:"+timeRs_testJavaCoapObs.get("usedTime")+"/usedtime_sec:"+timeRs_testJavaCoapObs.get("usedTime_sec"));
+		//System.out.println("cf total starttime:"+timeRs_testCfObs.get("startTime")+"/endtime:"+timeRs_testCfObs.get("endTime")+"/usedtime:"+timeRs_testCfObs.get("usedTime")+"/usedtime_sec:"+timeRs_testCfObs.get("usedTime_sec"));
+		//System.out.println("jc total starttime:"+timeRs_testJavaCoapObs.get("startTime")+"/endtime:"+timeRs_testJavaCoapObs.get("endTime")+"/usedtime:"+timeRs_testJavaCoapObs.get("usedTime")+"/usedtime_sec:"+timeRs_testJavaCoapObs.get("usedTime_sec"));
 	}
 	
 	@BeforeEach
@@ -131,14 +131,15 @@ class test1a {
 	
 	@Test
 	void testCfObs_1Server1Client() {
-		int clientNum=3;
+		int clientNum=1;
 		testCfObs_specifyClientNum(clientNum);
 	}
+	/*
 	@Test
 	void testJavaCoapObs_1Server1Client() {
 		int clientNum=3;
 		testJavaCoapObs_specifyClientNum(clientNum);
-	}
+	}*/
 
 
 	
@@ -169,8 +170,7 @@ class test1a {
 					LOGGER.info("californium client"+seqTmp+" starttime:"+timeRs1.get("startTime")+"/endtime:"+timeRs1.get("endTime")+"/usedtime:"+timeRs1.get("usedTime")+"/usedtime_sec:"+timeRs1.get("usedTime_sec"));
 					
 				}
-			};
-			
+			};		
 			
 			Thread t2 = new Thread(client1);
 			arr_thdClient.add(t2);
@@ -187,7 +187,8 @@ class test1a {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		TestMain_Cf_Obs_Server.startResource();
+		
+		//TestMain_Cf_Obs_Server.startResource();
 		
 		
 		//keep going
