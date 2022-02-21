@@ -24,19 +24,11 @@ public class TestMain_JavaCoap_Obs_Client {
 	
 	
 	public static void main(String[] args) {
-		//new TestMain_JavaCoap_Obs_Client(args[0]).run();
 		new TestMain_JavaCoap_Obs_Client().run();
     }
 	
 	public void run() {
-		
-		//String 	myuri1_hostaddr   				= "135.0.237.84";
-		String 	myuri1_hostaddr   				= "localhost";
-		int 	myuri1_port 	  				= 5656;
-		String 	myuri1_path   					= "/hello_observer";
-
-		// create client
-		InetSocketAddress inetSocketAddr = new InetSocketAddress(myuri1_hostaddr,myuri1_port);
+		InetSocketAddress inetSocketAddr = new InetSocketAddress("localhost",5656);		// create client
 		CoapClient client=null;
 		try {
 			client = CoapClientBuilder.newBuilder(inetSocketAddr).build();
@@ -48,7 +40,7 @@ public class TestMain_JavaCoap_Obs_Client {
 		// observe
 		CompletableFuture<CoapPacket> resp = null;
 		try {
-			resp = client.resource(myuri1_path).observe(new MyObservationListener());
+			resp = client.resource("/Resource1").observe(new MyObservationListener());
 			if(resp != null) {
 				//用来获取 第一次得到的数据
 				System.out.println(resp.get().getPayloadString().toString());
@@ -77,13 +69,6 @@ public class TestMain_JavaCoap_Obs_Client {
         }
         //
 		client.close();
-	}
-	
-	public void setClientSeq(String clientSeq) {
-		this.clientSeq=clientSeq ;
-	}
-	public String getClientSeq() {
-		return this.clientSeq;
 	}
 	
 	/**

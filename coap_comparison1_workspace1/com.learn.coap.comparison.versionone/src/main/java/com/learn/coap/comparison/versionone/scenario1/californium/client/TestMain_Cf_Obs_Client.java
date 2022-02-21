@@ -9,45 +9,38 @@ import org.eclipse.californium.core.CoapResponse;
  *
  */
 public class TestMain_Cf_Obs_Client {
-	private static final int EXPECTED_NUMBER_OF_MESSAGES = 30;
+	private int EXPECTED_NUMBER_OF_MESSAGES = 30;
 	private int numberOfMessages = 0;
 
-	public static void main(final String[] args) {
+	public static void main(String[] args) {
 		new TestMain_Cf_Obs_Client().run();
 	}
 
 	private void run() {
-		final CoapClient client = new CoapClient("coap://localhost:5656/Resource1");
-
-		try {
-			final CoapHandler myObserveHandler = new CoapHandler() {
-				@Override
-				public void onLoad(final CoapResponse response) {
-					System.out.println(response.getResponseText());
-					numberOfMessages = numberOfMessages + 1;
-				}
-
-				@Override
-				public void onError() {
-				}
-			};
-
-			client.observe(myObserveHandler);
-			while (numberOfMessages < EXPECTED_NUMBER_OF_MESSAGES) {
-				try {
-					Thread.sleep(200);
-				} catch (final InterruptedException e) {
-					e.printStackTrace();
-				}
+		CoapClient client = new CoapClient("coap://localhost:5656/Resource1");
+		
+		CoapHandler  myObserveHandler = new CoapHandler() {
+			@Override
+			public void onLoad(CoapResponse response) {
+				System.out.println(response.getResponseText());
+				numberOfMessages = numberOfMessages + 1;
 			}
-			client.shutdown();
+
+			@Override
+			public void onError() {
+			}
+		};	
+		
+		client.observe(myObserveHandler);
+		
+		while (numberOfMessages < EXPECTED_NUMBER_OF_MESSAGES) {
 			try {
-				Thread.sleep(10000);
-			} catch (final InterruptedException e) {
+				Thread.sleep(200);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-		} catch (final Exception e) {
-			e.printStackTrace();
 		}
+		client.shutdown();
 	}
 }

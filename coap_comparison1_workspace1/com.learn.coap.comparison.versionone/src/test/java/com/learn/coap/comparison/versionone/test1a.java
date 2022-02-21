@@ -16,6 +16,7 @@ import org.junit.jupiter.api.Test;
 import com.learn.coap.comparison.versionone.myutil.MyTimeUtil;
 import com.learn.coap.comparison.versionone.scenario1.californium.client.TestMain_Cf_Obs_Client;
 import com.learn.coap.comparison.versionone.scenario1.californium.server.TestMain_Cf_Obs_Server;
+
 import com.learn.coap.comparison.versionone.scenario1.javacoap.client.TestMain_JavaCoap_Obs_Client;
 import com.learn.coap.comparison.versionone.scenario1.javacoap.server.TestMain_JavaCoap_Obs_Server;
 
@@ -37,8 +38,8 @@ class test1a {
 	
 	@AfterAll
 	static void toEnd() {
-		//System.out.println("cf total starttime:"+timeRs_testCfObs.get("startTime")+"/endtime:"+timeRs_testCfObs.get("endTime")+"/usedtime:"+timeRs_testCfObs.get("usedTime")+"/usedtime_sec:"+timeRs_testCfObs.get("usedTime_sec"));
-		//System.out.println("jc total starttime:"+timeRs_testJavaCoapObs.get("startTime")+"/endtime:"+timeRs_testJavaCoapObs.get("endTime")+"/usedtime:"+timeRs_testJavaCoapObs.get("usedTime")+"/usedtime_sec:"+timeRs_testJavaCoapObs.get("usedTime_sec"));
+		System.out.println("cf total starttime:"+timeRs_testCfObs.get("startTime")+"/endtime:"+timeRs_testCfObs.get("endTime")+"/usedtime:"+timeRs_testCfObs.get("usedTime")+"/usedtime_sec:"+timeRs_testCfObs.get("usedTime_sec"));
+		System.out.println("jc total starttime:"+timeRs_testJavaCoapObs.get("startTime")+"/endtime:"+timeRs_testJavaCoapObs.get("endTime")+"/usedtime:"+timeRs_testJavaCoapObs.get("usedTime")+"/usedtime_sec:"+timeRs_testJavaCoapObs.get("usedTime_sec"));
 	}
 	
 	@BeforeEach
@@ -134,12 +135,12 @@ class test1a {
 		int clientNum=1;
 		testCfObs_specifyClientNum(clientNum);
 	}
-	/*
+	
 	@Test
 	void testJavaCoapObs_1Server1Client() {
-		int clientNum=3;
+		int clientNum=1;
 		testJavaCoapObs_specifyClientNum(clientNum);
-	}*/
+	}
 
 
 	
@@ -181,12 +182,13 @@ class test1a {
 		// 不然的话 上面resource还没弄好,就启动了 它就会报NullPointer错误
 		// 虽然等待的途中 他们会收到 helloworld:0
 		// 但是这个并不算是我的计算范围内
+		/*
 		try {
 			Thread.sleep(10000);
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
+		}*/
 		
 		//TestMain_Cf_Obs_Server.startResource();
 		
@@ -221,9 +223,6 @@ class test1a {
 			public void run() {
 				long serverStartTime			=System.nanoTime();   		//nanoTime 会比 currentTimeMillis更加精确
 				TestMain_JavaCoap_Obs_Server.main(null);
-				// start sending notification!!!!!!!!!!!!!!!!!!!!!!!!
-				//TestMain_JavaCoap_Obs_Server.startResource();
-				//
 				Map timeRs1 = MyTimeUtil.countUsedTime(serverStartTime);
 				System.out.println("javacoap server starttime:"+timeRs1.get("startTime")+"/endtime:"+timeRs1.get("endTime")+"/usedtime:"+timeRs1.get("usedTime")+"/usedtime_sec:"+timeRs1.get("usedTime_sec"));
 			}
@@ -243,23 +242,11 @@ class test1a {
 					LOGGER.info("javacoap client"+seqTmp+" starttime:"+timeRs1.get("startTime")+"/endtime:"+timeRs1.get("endTime")+"/usedtime:"+timeRs1.get("usedTime")+"/usedtime_sec:"+timeRs1.get("usedTime_sec"));
 				}
 			};	
+			
 			Thread t2 = new Thread(runna_client1);
 			arr_thdClient.add(t2);
 			t2.start();
 		}
-
-		
-		// 需要稍微等待一下, 再去开启resource 
-		// 不然的话 上面resource还没弄好,就启动了 它就会报NullPointer错误
-		// 虽然等待的途中 他们会收到 helloworld:0
-		// 但是这个并不算是我的计算范围内
-		try {
-			Thread.sleep(10000);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		TestMain_JavaCoap_Obs_Server.startResource();
 		
 		//keep going
 		boolean someClientRunning = true;
@@ -267,11 +254,9 @@ class test1a {
 			int loopTmp = 0;
 			for(; loopTmp<=clientNum-1; loopTmp++) {
 				if(arr_thdClient.get(loopTmp).isAlive()) {
-					//System.out.println(loopTmp);
 					break;
 				}
 			}
-			//System.out.println(loopTmp);
 			if(loopTmp>clientNum-1) {
 				someClientRunning = false;	//all clients finished
 			}

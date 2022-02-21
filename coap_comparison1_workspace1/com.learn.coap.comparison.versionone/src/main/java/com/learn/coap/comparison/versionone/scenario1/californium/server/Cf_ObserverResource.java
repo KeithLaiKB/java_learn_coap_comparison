@@ -13,9 +13,9 @@ public class Cf_ObserverResource extends CoapResource {
 	private class UpdateTask extends TimerTask {
 		private int statusUpdateMaxTimes = 30;
 		private int statusUpdate = 0;
-		private boolean done = false;
+		private boolean rescDone = false;
 
-		public void setStatusUpdateMaxTimes(final int statusUpdateMaxTimes) {
+		public void setStatusUpdateMaxTimes(int statusUpdateMaxTimes) {
 			this.statusUpdateMaxTimes = statusUpdateMaxTimes;
 		}
 
@@ -25,24 +25,23 @@ public class Cf_ObserverResource extends CoapResource {
 
 		@Override
 		public void run() {
-			System.out.println("updaaate:"+this.statusUpdate);
 			if (this.statusUpdate <= this.statusUpdateMaxTimes - 1) {
 				this.statusUpdate = this.statusUpdate + 1;
 				changed(); // Notify all observers
 			} else {
-				done = true;
+				rescDone = true;
 			}
 		}
 
 		public boolean isMyDone() {
-			return this.done;
+			return this.rescDone;
 		}
 	}
 
-	private final Timer timer;
+	private Timer timer;
 	private UpdateTask updateTask = null;
 
-	public Cf_ObserverResource(final String name) {
+	public Cf_ObserverResource(String name) {
 		super(name);
 		this.setObservable(true);
 		this.setObserveType(Type.NON);
@@ -54,7 +53,7 @@ public class Cf_ObserverResource extends CoapResource {
 	}
 
 	@Override
-	public void handleGET(final CoapExchange exchange) {
+	public void handleGET(CoapExchange exchange) {
 		exchange.respond(ResponseCode.CONTENT, "Hello World!" + updateTask.getStatusUpdate(),
 				MediaTypeRegistry.TEXT_PLAIN);
 	}
