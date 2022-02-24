@@ -9,7 +9,7 @@ import org.eclipse.californium.core.CoapResponse;
  *
  */
 public class TestMain_Cf_Obs_Client {
-	private int EXPECTED_NUMBER_OF_MESSAGES = 30;
+	private int expectedNumberOfMessages = 30;
 	private int numberOfMessages = 0;
 
 	public static void main(String[] args) {
@@ -33,7 +33,7 @@ public class TestMain_Cf_Obs_Client {
 		
 		client.observe(myObserveHandler);
 		
-		while (numberOfMessages < EXPECTED_NUMBER_OF_MESSAGES) {
+		while (numberOfMessages < expectedNumberOfMessages) {
 			try {
 				Thread.sleep(200);
 			} catch (InterruptedException e) {

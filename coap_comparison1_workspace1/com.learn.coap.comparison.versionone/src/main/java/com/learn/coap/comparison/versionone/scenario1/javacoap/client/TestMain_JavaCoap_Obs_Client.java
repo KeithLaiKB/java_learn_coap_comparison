@@ -15,10 +15,14 @@ import com.mbed.coap.client.ObservationListener;
 import com.mbed.coap.exception.CoapException;
 import com.mbed.coap.packet.CoapPacket;
 
-
+/**
+ * 多一个 MyObservationListener
+ * @author laipl
+ *
+ */
 public class TestMain_JavaCoap_Obs_Client {
-	private int receivedMessageNum 					= 0;
-	private int expectedReceivedMessageNum			= 30;
+	private int expectedNumberOfMessages			= 30;
+	private int numberOfMessages 					= 0;
 	
 	private String clientSeq = null;
 	
@@ -44,7 +48,7 @@ public class TestMain_JavaCoap_Obs_Client {
 			if(resp != null) {
 				//用来获取 第一次得到的数据
 				System.out.println(resp.get().getPayloadString().toString());
-				receivedMessageNum = receivedMessageNum +1;
+				numberOfMessages = numberOfMessages +1;
 			}
 		} catch (CoapException e1) {
 			// TODO Auto-generated catch block
@@ -59,7 +63,7 @@ public class TestMain_JavaCoap_Obs_Client {
 
         //---------------------------------------------
 		// 停留一段时间 让server继续运行
-        while(receivedMessageNum < expectedReceivedMessageNum) {
+        while(numberOfMessages < expectedNumberOfMessages) {
         	try {
 				Thread.sleep(200);
 			} catch (InterruptedException e) {
@@ -83,7 +87,7 @@ public class TestMain_JavaCoap_Obs_Client {
         @Override
         public void onObservation(CoapPacket obsPacket) throws CoapException {
             System.out.println(obsPacket.getPayloadString());
-            receivedMessageNum = receivedMessageNum +1;
+            numberOfMessages = numberOfMessages +1;
         }
 
         @Override
