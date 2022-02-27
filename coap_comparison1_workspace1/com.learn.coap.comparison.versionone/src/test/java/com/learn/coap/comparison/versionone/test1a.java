@@ -169,7 +169,6 @@ class test1a {
 					Map timeRs1 = MyTimeUtil.countUsedTime(clientStartTime);
 					System.out.println("cf client starttime:"+timeRs1.get("startTime")+"/endtime:"+timeRs1.get("endTime")+"/usedtime:"+timeRs1.get("usedTime")+"/usedtime_sec:"+timeRs1.get("usedTime_sec"));
 					LOGGER.info("californium client"+seqTmp+" starttime:"+timeRs1.get("startTime")+"/endtime:"+timeRs1.get("endTime")+"/usedtime:"+timeRs1.get("usedTime")+"/usedtime_sec:"+timeRs1.get("usedTime_sec"));
-					
 				}
 			};		
 			
