@@ -19,7 +19,7 @@ public class TestMain_JavaCoap_Obs_Server {
 	
 	public static void main(String[] args) {
 		// ref:java-coap/coap-core/src/test/java/protocolTests/ObservationTest.java 
-		CoapServer server = CoapServer.builder().transport(5656).build();			// create server
+		CoapServer server = CoapServer.builder().transport(5683).build();			// create server
 		JavaCoap_ObserverResource myobResc1 = new JavaCoap_ObserverResource(server);	// create resource
 		myobResc1.setStatusUpdateMaxTimes(35);						// 因为我们想独立的设置次数, 而不想更改构造函数, 所以后面需要独立出来一个startMyResource 
 		server.addRequestHandler("/Resource1", myobResc1);								// add resoucre

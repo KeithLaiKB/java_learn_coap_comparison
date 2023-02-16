@@ -17,7 +17,7 @@ public class TestMain_Cf_Obs_Client {
 	}
 
 	private void run() {
-		CoapClient client = new CoapClient("coap://localhost:5656/Resource1");
+		CoapClient client = new CoapClient("coap://localhost:5683/Resource1");
 		
 		CoapHandler  myObserveHandler = new CoapHandler() {
 			@Override
