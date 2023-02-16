@@ -1,4 +1,4 @@
-package com.learn.coap.comparison.versionone.scenario2.californium.client;
+package com.learn.coap.comparison.versionone.scenario1_case2.californium.client;
 
 import org.eclipse.californium.core.CoapClient;
 import org.eclipse.californium.core.CoapHandler;

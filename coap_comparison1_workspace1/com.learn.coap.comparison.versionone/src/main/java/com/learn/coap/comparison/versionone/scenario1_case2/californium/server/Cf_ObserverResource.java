@@ -1,4 +1,4 @@
-package com.learn.coap.comparison.versionone.scenario2.californium.server;
+package com.learn.coap.comparison.versionone.scenario1_case2.californium.server;
 
 import java.util.Timer;
 import java.util.TimerTask;

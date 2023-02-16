@@ -1,5 +1,7 @@
 package com.learn.coap.comparison.versionone;
-
+/**
+ * 暂时不用
+ */
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.ArrayList;

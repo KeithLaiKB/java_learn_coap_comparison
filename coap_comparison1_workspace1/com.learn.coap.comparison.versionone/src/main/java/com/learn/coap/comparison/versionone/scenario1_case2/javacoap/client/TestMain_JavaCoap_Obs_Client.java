@@ -1,4 +1,4 @@
-package com.learn.coap.comparison.versionone.scenario2.javacoap.client;
+package com.learn.coap.comparison.versionone.scenario1_case2.javacoap.client;
 
 
 import java.io.IOException;

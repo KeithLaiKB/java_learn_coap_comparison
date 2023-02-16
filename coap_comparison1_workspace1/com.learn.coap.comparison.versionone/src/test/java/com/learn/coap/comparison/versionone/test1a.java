@@ -20,6 +20,14 @@ import com.learn.coap.comparison.versionone.scenario1.californium.server.TestMai
 import com.learn.coap.comparison.versionone.scenario1.javacoap.client.TestMain_JavaCoap_Obs_Client;
 import com.learn.coap.comparison.versionone.scenario1.javacoap.server.TestMain_JavaCoap_Obs_Server;
 
+/**
+ * 如果出现这个不用担心
+ * java.util.concurrent.RejectedExecutionException: Task java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask@55c0e63a[Not completed, task = java.util.concurrent.Executors$RunnableAdapter@30368daa[Wrapped task = org.eclipse.californium.core.coap.ClientObserveRelation$1@29d7a403]] rejected from java.util.concurrent.ScheduledThreadPoolExecutor@5dbc0f1e[Terminated, pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 0]
+	只是因为 server 比如发送 31条, client接受了30条则会多出一条, 这个时候强行关闭 就会出现这个
+ * 
+ * @author laipl
+ *
+ */
 class test1a {
 	long startTime = 0;
 	long endTime = 0;

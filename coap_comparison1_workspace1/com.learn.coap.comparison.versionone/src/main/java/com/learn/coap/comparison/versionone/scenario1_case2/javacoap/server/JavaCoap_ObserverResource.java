@@ -1,4 +1,4 @@
-package com.learn.coap.comparison.versionone.scenario2.javacoap.server;
+package com.learn.coap.comparison.versionone.scenario1_case2.javacoap.server;
 
 import java.util.Timer;
 import java.util.TimerTask;
