@@ -17,8 +17,6 @@ import org.eclipse.californium.scandium.config.DtlsConnectorConfig;
 import org.eclipse.californium.scandium.dtls.CertificateType;
 import org.eclipse.californium.scandium.dtls.x509.SingleCertificateProvider;
 import org.eclipse.californium.scandium.dtls.x509.StaticNewAdvancedCertificateVerifier;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * 
@@ -31,13 +29,12 @@ public class TestMain_Cf_Obs_Server {
 		int DEFAULT_PORT = 5684;
 		//final Logger LOG = LoggerFactory.getLogger(TestMain_Cf_Obs_Server.class.getName());
 		
-		final String KEY_STORE_LOCATION = "mycerts/californium/server/my_own/mykeystore.jks";
-		final char[] KEY_STORE_PASSWORD = "SksOneAdmin".toCharArray();
-		final String TRUST_STORE_LOCATION = "mycerts/californium/server/my_own/mykeystore_truststore.jks";
-		final char[] TRUST_STORE_PASSWORD = "StsOneAdmin".toCharArray();
+		String myusr_path = System.getProperty("user.dir");
 		
-		
-		DTLSConnector dtlsConnector;
+		String KEY_STORE_LOCATION = "mycerts/californium/server/my_own/mykeystore.jks";
+		char[] KEY_STORE_PASSWORD = "SksOneAdmin".toCharArray();
+		String TRUST_STORE_LOCATION = "mycerts/californium/server/my_own/mykeystore_truststore.jks";
+		char[] TRUST_STORE_PASSWORD = "StsOneAdmin".toCharArray();
 		
 		try {	
 			DefinitionsProvider DEFAULTS = new DefinitionsProvider() {
@@ -49,8 +46,6 @@ public class TestMain_Cf_Obs_Server {
 				}
 
 			};
-
-			String myusr_path = System.getProperty("user.dir");
 			
 			SslContextUtil.Credentials serverCredentials = SslContextUtil.loadCredentials(myusr_path + "\\" + KEY_STORE_LOCATION, "mykeystorealias", KEY_STORE_PASSWORD, KEY_STORE_PASSWORD);
 			Certificate[] trustedCertificates = SslContextUtil.loadTrustedCertificates(myusr_path + "\\" + TRUST_STORE_LOCATION, "mytruststorealias", TRUST_STORE_PASSWORD);
@@ -58,27 +53,20 @@ public class TestMain_Cf_Obs_Server {
 			Configuration configuration = Configuration.createWithFile(Configuration.DEFAULT_FILE, "DTLS example server", DEFAULTS);
 			DtlsConnectorConfig.Builder builder = new DtlsConnectorConfig.Builder(configuration);
 		
-			builder.setAddress(new InetSocketAddress(DEFAULT_PORT));
-			
+			builder.setAddress(new InetSocketAddress(DEFAULT_PORT));	
 			builder.setCertificateIdentityProvider(new SingleCertificateProvider(serverCredentials.getPrivateKey(), serverCredentials.getCertificateChain(), CertificateType.RAW_PUBLIC_KEY));
+			builder.setAdvancedCertificateVerifier(StaticNewAdvancedCertificateVerifier.builder().setTrustedCertificates(trustedCertificates).setTrustAllRPKs().build());
 			
-			builder.setAdvancedCertificateVerifier(StaticNewAdvancedCertificateVerifier.builder()
-					.setTrustedCertificates(trustedCertificates).setTrustAllRPKs().build());
-			dtlsConnector = new DTLSConnector(builder.build());
-		
-			
-			
-			CoapEndpoint.Builder coapBuilder = new CoapEndpoint.Builder()
-					.setConfiguration(configuration)
-					.setConnector(dtlsConnector);
+			DTLSConnector dtlsConnector = new DTLSConnector(builder.build());
+				
+			CoapEndpoint.Builder coapBuilder = new CoapEndpoint.Builder().setConfiguration(configuration).setConnector(dtlsConnector);
 			CoapServer server = new CoapServer();
-			Cf_ObserverResource myobResc1 = new Cf_ObserverResource("Resource1");
+			server.addEndpoint(coapBuilder.build());								// set DTLSConnector into a configuration into CoapEndpoint into CoapClient
+			
+			Cf_ObserverResource myobResc1 = new Cf_ObserverResource("Resource1");	//new resource
 			myobResc1.setStatusUpdateMaxTimes(35);
-			//--------------------------------------------------------------------------
-			server.addEndpoint(coapBuilder.build());
 			server.add(myobResc1);
-			server.start(); // does all the magic
-			//
+			
 			myobResc1.startResource();
 			server.start();
 
@@ -91,7 +79,6 @@ public class TestMain_Cf_Obs_Server {
 
 			}
 
-		
 			myobResc1.stopResource();
 			try {
 				Thread.sleep(500);

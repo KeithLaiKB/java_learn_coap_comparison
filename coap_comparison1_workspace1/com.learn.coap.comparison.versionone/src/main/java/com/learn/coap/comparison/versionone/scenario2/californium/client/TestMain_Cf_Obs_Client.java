@@ -35,6 +35,7 @@ public class TestMain_Cf_Obs_Client {
 
 	private void run() {
 		
+		String myusr_path = System.getProperty("user.dir");
     	String KEY_STORE_LOCATION = "mycerts/californium/client/my_own/myclientakeystore.jks";
     	char[] KEY_STORE_PASSWORD = "CksOneAdmin".toCharArray();
 		
@@ -49,7 +50,6 @@ public class TestMain_Cf_Obs_Client {
 		};
 		
 		try {
-			String myusr_path = System.getProperty("user.dir");
 			SslContextUtil.Credentials clientCredentials = SslContextUtil.loadCredentials(myusr_path + "\\" + KEY_STORE_LOCATION, "myclientakeystorealias", KEY_STORE_PASSWORD, KEY_STORE_PASSWORD);
 			
 			Configuration configuration = Configuration.createWithFile(Configuration.DEFAULT_FILE, "DTLS example client", DEFAULTS);
@@ -57,13 +57,12 @@ public class TestMain_Cf_Obs_Client {
 			builder.setCertificateIdentityProvider(new SingleCertificateProvider(clientCredentials.getPrivateKey(), clientCredentials.getCertificateChain(), CertificateType.RAW_PUBLIC_KEY));
 			builder.setAdvancedCertificateVerifier(StaticNewAdvancedCertificateVerifier.builder().setTrustAllRPKs().build());
 			
-			DTLSConnector dtlsConnector = new DTLSConnector(builder.build());
+			DTLSConnector dtlsConnector = new DTLSConnector(builder.build());		// new DTLS Connector
 
-	    	
-	    	CoapClient client = new CoapClient("coap://localhost:5684/Resource1");	// new client
+	    	CoapClient client = new CoapClient("coaps://localhost:5684/Resource1");	// new client
 			CoapEndpoint.Builder coapEndPointBuilder = new CoapEndpoint.Builder().setConfiguration(configuration).setConnector(dtlsConnector);
 
-			client.setEndpoint(coapEndPointBuilder.build());
+			client.setEndpoint(coapEndPointBuilder.build());						// set DTLSConnector into a configuration into CoapEndpoint into CoapClient
 			
 			CoapHandler  myObserveHandler = new CoapHandler() {
 				@Override

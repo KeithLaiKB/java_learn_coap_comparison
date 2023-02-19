@@ -16,11 +16,13 @@
   
   	<dependencies>
   		<!-- pelionIoT -->
+  		<!--
   		<dependency>
       		<groupId>com.mbed.java-coap</groupId>
           	<artifactId>coap-core</artifactId>
             <version>5.0.0</version>
    		</dependency>
+   		-->
    		
    		<dependency>
 			<groupId>org.slf4j</groupId>
