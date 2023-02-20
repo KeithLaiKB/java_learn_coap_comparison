@@ -2,12 +2,10 @@ package com.learn.coap.comparison.versionone.scenario2.javacoap.client;
 
 
 import java.io.BufferedInputStream;
-import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.net.InetSocketAddress;
 import java.security.KeyManagementException;
 import java.security.KeyStore;
@@ -16,16 +14,15 @@ import java.security.NoSuchAlgorithmException;
 import java.security.cert.Certificate;
 import java.security.cert.CertificateException;
 import java.security.cert.CertificateFactory;
-import java.security.cert.X509Certificate;
+
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 
 import javax.net.ssl.SSLContext;
-import javax.net.ssl.SSLSocketFactory;
+
 import javax.net.ssl.TrustManagerFactory;
 
-import com.learn.coap.comparison.versionone.scenario1.californium.client.TestMain_Cf_Obs_Client;
-import com.learn.coap.comparison.versionone.scenario2.javacoap.client.TestMain_RequestObserverOne_Modified.MyObservationListener;
+
 import com.mbed.coap.client.CoapClient;
 import com.mbed.coap.client.CoapClientBuilder;
 import com.mbed.coap.client.ObservationListener;
@@ -54,19 +51,13 @@ public class TestMain_JavaCoap_Obs_Client {
 	public void run() {
 
 		String serverCaCrt_file					="s_cacert.crt";
-
 		String serverCaCrt_file_dir				="/mycerts/javacoap/client/other_own";
 		String serverCaCrt_file_loc = null;
 		
-
 		String myusr_path = System.getProperty("user.dir");
-
 		serverCaCrt_file_loc 							= 	myusr_path	+ serverCaCrt_file_dir		+"/" + 	serverCaCrt_file;
 	         
 
-        //////////////////// file->FileInputStream->BufferedInputStream->X509Certificate //////////////////////////////////////
-        // ref: https://gist.github.com/erickok/7692592
-        
         //s_cacert.crt ->FileInputStream->BufferedInputStream-> ca Certificate
         FileInputStream fis= null;
         CertificateFactory cf = null;
@@ -88,6 +79,7 @@ public class TestMain_JavaCoap_Obs_Client {
 				e.printStackTrace();
 			}
 		}
+		
         
 		// KeyStore set ca Certificate -> TrustManagerFactory
 		// Create a KeyStore containing our trusted CAs
