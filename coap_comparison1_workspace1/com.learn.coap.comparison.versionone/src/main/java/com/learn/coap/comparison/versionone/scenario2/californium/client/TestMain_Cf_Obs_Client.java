@@ -66,7 +66,7 @@ public class TestMain_Cf_Obs_Client {
 		
 		DTLSConnector dtlsConnector = new DTLSConnector(builder.build());		// new DTLS Connector
 
-    	CoapClient client = new CoapClient("coaps://localhost:5684/Resource1");	// new client
+    	CoapClient client = new CoapClient("coaps://127.0.0.1:5684/Resource1");	// new client
 		CoapEndpoint.Builder coapEndPointBuilder = new CoapEndpoint.Builder().setConfiguration(configuration).setConnector(dtlsConnector);
 
 		client.setEndpoint(coapEndPointBuilder.build());						// set DTLSConnector into a configuration into CoapEndpoint into CoapClient

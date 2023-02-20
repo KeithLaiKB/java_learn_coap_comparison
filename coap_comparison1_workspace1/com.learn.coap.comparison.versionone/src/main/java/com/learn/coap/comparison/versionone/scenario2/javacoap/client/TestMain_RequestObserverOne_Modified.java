@@ -42,37 +42,13 @@ public class TestMain_RequestObserverOne_Modified {
 
 	
 	public static void main(String[] args) {
-		String port1 = "coap://localhost:5656/hello";
-		String port2 = "coap://160.32.219.56:5656/hello";		//有线连接树莓派, 路由给的地址是192.168.50.178
-																// 我把它的192.168.50.178:5656 映射成160.32.219.56:5656
-		String port3 = "coap://160.32.219.56:5657/hello";		//无线连接树莓派, 路由给的地址是192.168.50.179
-																// 我把它的192.168.50.179:5656 映射成160.32.219.56:5657
-		
-		//String 	myuri1_hostaddr   				= "135.0.237.84";
-		//String 	myuri1_hostaddr   				= "localhost";
-		//int 	myuri1_port 	  				= 5656;
+
+
 		String 	myuri1_hostaddr   				= "192.168.239.137";
 		int 	myuri1_port 	  				= 5684;
 		String 	myuri1_path   					= "/Resource1";
 		
-		
-		String serverPemCertificate					="mykeystorepem.pem";
-		String serverTrustStorePemCertificate		="mykeystore_truststorepem.pem";
-		String serverPemCertificate_dir				="/mycerts/my_own";
-		String serverTrustStorePemCertificate_dir	="/mycerts/my_own";
-		
-		
-		
-		String clientPemCertificate					="myclientakeystorepem.pem";
-		String clientTrustStorePemCertificate		="myclientakeystore_truststorepem.pem";
-		String clientPemCertificate_dir				="/mycerts/my_own";
-		String clientTrustStorePemCertificate_dir	="/mycerts/my_own";
-		
-		
-		String serverPemCertificate_loc = null;
-		String serverTrustStorePemCertificate_loc = null;
-		String clientPemCertificate_loc = null;
-		String clientTrustStorePemCertificate_loc = null;
+
 		
 		//public String serverCaCrt_file					="server_cert.crt";
 		String serverCaCrt_file					="s_cacert.crt";
@@ -86,10 +62,7 @@ public class TestMain_RequestObserverOne_Modified {
 		//--------------------------------------
         
 		String myusr_path = System.getProperty("user.dir");
-		clientPemCertificate_loc 				=	myusr_path	+ clientPemCertificate_dir					+"/" +	clientPemCertificate;
-		clientTrustStorePemCertificate_loc 		= 	myusr_path	+ clientTrustStorePemCertificate_dir		+"/" + 	clientTrustStorePemCertificate;
-        
-		
+
 		
 		serverCaCrt_file_loc 							= 	myusr_path	+ serverCaCrt_file_dir		+"/" + 	serverCaCrt_file;
 	         

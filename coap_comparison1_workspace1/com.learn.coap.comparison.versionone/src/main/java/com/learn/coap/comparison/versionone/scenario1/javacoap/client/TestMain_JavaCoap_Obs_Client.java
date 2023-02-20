@@ -32,7 +32,7 @@ public class TestMain_JavaCoap_Obs_Client {
     }
 	
 	public void run() {
-		InetSocketAddress inetSocketAddr = new InetSocketAddress("localhost",5683);		// create client
+		InetSocketAddress inetSocketAddr = new InetSocketAddress("127.0.0.1",5683);		// create client
 		CoapClient client=null;
 		try {
 			client = CoapClientBuilder.newBuilder(inetSocketAddr).build();
