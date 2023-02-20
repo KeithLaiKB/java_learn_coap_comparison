@@ -26,13 +26,13 @@ public class TestMain_JavaCoap_Obs_Server {
 		
 		
 		myobResc1.startResource();
+		
 		try {
-			server.start();																// start server
-		} catch (IllegalStateException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		} 
+			server.start();				// start server
+		} catch (IllegalStateException | IOException e1) {
+			e1.printStackTrace();
+		}																
+
 		
 		while (!myobResc1.isMyDone()) {
 			try {
@@ -56,7 +56,6 @@ public class TestMain_JavaCoap_Obs_Server {
 		try {
 			Thread.sleep(500);
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		

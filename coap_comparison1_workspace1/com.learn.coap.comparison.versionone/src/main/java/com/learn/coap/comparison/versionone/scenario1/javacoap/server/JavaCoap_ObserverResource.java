@@ -59,7 +59,6 @@ public class JavaCoap_ObserverResource extends AbstractObservableResource{
 	
 	public JavaCoap_ObserverResource(CoapServer coapServer) {
 		super(coapServer);
-		// TODO Auto-generated constructor stub
 		this.setConNotifications(false);					// configure the notification type to NONs, 如果不写这个默认的是 CON
 		//
 		timer = new Timer();								// schedule a periodic update task, otherwise let events call changed()

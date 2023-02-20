@@ -99,9 +99,6 @@ public class TestMain_JavaCoap_Obs_Server {
 
 
         //////////////////// file->FileInputStream->BufferedInputStream->X509Certificate //////////////////////////////////////
-        // ref: https://gist.github.com/erickok/7692592
-        // ref: java-coap/coap-core/src/test/java/com/mbed/coap/transport/javassl/SSLUtils.java 
-        
         FileInputStream fis= null;
         CertificateFactory cf = null;
         Certificate ca=null;
@@ -113,50 +110,34 @@ public class TestMain_JavaCoap_Obs_Server {
 			
 			try {
 				ca = cf.generateCertificate(caInput);
-				// System.out.println("ca=" + ((X509Certificate) ca).getSubjectDN());
 			} finally {
 				caInput.close();
 			}
 		} catch (FileNotFoundException e2) {
-			// TODO Auto-generated catch block
 			e2.printStackTrace();
 		} catch (CertificateException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
 		
 		
         InputStream ksInputStream = null;
 		try {
-			//cf = CertificateFactory.getInstance("X.509");
-			// From https://www.washington.edu/itconnect/security/ca/load-der.crt
 			fis = new FileInputStream(serverKey_file_loc);
 			ksInputStream = new BufferedInputStream(fis);
-			
 		} catch (FileNotFoundException e2) {
-			// TODO Auto-generated catch block
 			e2.printStackTrace();
 		}
 		
-        
-		
 		// Create a KeyStore containing our trusted CAs
-		String keyStoreType = KeyStore.getDefaultType();
 		KeyStore keyStore=null;
 		TrustManagerFactory tmf = null;
 		try {
 			// Create a KeyStore containing our trusted CAs
-			keyStoreType = KeyStore.getDefaultType();
-			//keyStore = KeyStore.getInstance(keyStoreType);
-			
 			keyStore = KeyStore.getInstance("JKS");
-			keyStore.load(ksInputStream, "SksOneAdmin".toCharArray());
 			
-			//keyStore.load(null,null);
+			keyStore.load(ksInputStream, "SksOneAdmin".toCharArray());
 			keyStore.setCertificateEntry("ca", ca);
 
 			// Create a TrustManager that trusts the CAs in our KeyStore
@@ -164,19 +145,14 @@ public class TestMain_JavaCoap_Obs_Server {
 			tmf = TrustManagerFactory.getInstance(tmfAlgorithm);
 			tmf.init(keyStore);
 		} catch (KeyStoreException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		} catch (NoSuchAlgorithmException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (CertificateException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
 		
 		//try add尝试
 		KeyManagerFactory kmf=null;
@@ -184,13 +160,10 @@ public class TestMain_JavaCoap_Obs_Server {
 			kmf = KeyManagerFactory.getInstance("SunX509");
 			kmf.init(keyStore, "SksOneAdmin".toCharArray());
 		} catch (NoSuchAlgorithmException e3) {
-			// TODO Auto-generated catch block
 			e3.printStackTrace();
 		} catch (UnrecoverableKeyException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (KeyStoreException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
         
@@ -201,68 +174,28 @@ public class TestMain_JavaCoap_Obs_Server {
 		SSLContext context=null;
 		SSLSocketFactory mysocketFactory=null;
 		try {
-			Provider[] providers = Security.getProviders();
-			for (int i = 0; i < providers.length; i++) {
-				Provider provider = providers[i];
-				System.out.print("Provider: ");
-				System.out.println(provider);
-			}
-			
-			
-			//context = SSLContext.getInstance("SSL");
 			//ref: https://datatracker.ietf.org/doc/html/rfc6347
-			// This document updates
-			// DTLS 1.0 to work with TLS version 1.2.
 			context = SSLContext.getInstance("TLSv1.3");
 			
-			//context.init(kmf.getKeyManagers(), tmf.getTrustManagers(), null);
-			//context.init(null,tmf.getTrustManagers(), new java.security.SecureRandom());
-			//context.init(null,tmf.getTrustManagers(), null);
-			//
-			//
-			//context.init(null, tmf.getTrustManagers(), new java.security.SecureRandom());
 			context.init(kmf.getKeyManagers(), tmf.getTrustManagers(), new java.security.SecureRandom());
-			//
-			
-			
-			
 			
 		} catch (NoSuchAlgorithmException e2) {
-			// TODO Auto-generated catch block
 			e2.printStackTrace();
 		} catch (KeyManagementException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		mysocketFactory = context.getSocketFactory();
 				
         
-		
-		//--------------------------------------------------
-		
-		/*
-		//ref :coap-core/src/test/java/com/mbed/coap/transport/javassl/SSLSocketClientTransportTest.java
-        CoapServer srv = CoapServer.builder()
-                .transport(new SingleConnectionSSLSocketServerTransport(srvSslContext, 0, CoapSerializer.UDP))
-                .build().start();
-		 */
-		// ref:java-coap/coap-core/src/test/java/protocolTests/ObservationTest.java 
-		//CoapServer serverq = CoapServer.builder().transport(new SingleConnectionSSLSocketServerTransport(srvSslContext, 0, )).build();
-		
+
 		//ref: java-coap/coap-core/src/test/java/com/mbed/coap/transport/javassl/SingleConnectionSSLSocketServerTransport.java
 		SingleConnectionSocketServerTransport serverTransport1=null;
 		try {
-			//add尝试
-			//ref:https://stackoverflow.com/questions/15076820/java-sslhandshakeexception-no-cipher-suites-in-common
 			SSLServerSocket sslserversocket = (SSLServerSocket) context.getServerSocketFactory().createServerSocket(5684);
 			sslserversocket.setEnabledCipherSuites(context.getServerSocketFactory().getSupportedCipherSuites());
 			
 			serverTransport1 = new SingleConnectionSocketServerTransport(sslserversocket, CoapSerializer.UDP);
-			//InetSocketAddress serverAdr = new InetSocketAddress(myuri1_hostaddr, myuri1_port);
-			//serverTransport1 = new SingleConnectionSocketServerTransport(context.getServerSocketFactory().createServerSocket(0), CoapSerializer.UDP);
-			//((SSLServerSocket)(serverTransport1.serverSocket)).setNeedClientAuth(true);
 		} catch (IOException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
 		
@@ -307,7 +240,6 @@ public class TestMain_JavaCoap_Obs_Server {
 		try {
 			Thread.sleep(500);
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		

@@ -37,7 +37,6 @@ public class TestMain_Cf_Obs_Client {
 			try {
 				Thread.sleep(200);
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}

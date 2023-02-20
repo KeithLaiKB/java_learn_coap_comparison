@@ -36,63 +36,67 @@ public class TestMain_Cf_Obs_Server {
 		String TRUST_STORE_LOCATION = "mycerts/californium/server/my_own/mykeystore_truststore.jks";
 		char[] TRUST_STORE_PASSWORD = "StsOneAdmin".toCharArray();
 		
-		try {	
-			DefinitionsProvider DEFAULTS = new DefinitionsProvider() {
-
-				@Override
-				public void applyDefinitions(Configuration config) {
-					config.set(DtlsConfig.DTLS_CONNECTION_ID_LENGTH, 6);
-					config.set(DtlsConfig.DTLS_RECOMMENDED_CIPHER_SUITES_ONLY, false);
-				}
-
-			};
-			
-			SslContextUtil.Credentials serverCredentials = SslContextUtil.loadCredentials(myusr_path + "\\" + KEY_STORE_LOCATION, "mykeystorealias", KEY_STORE_PASSWORD, KEY_STORE_PASSWORD);
-			Certificate[] trustedCertificates = SslContextUtil.loadTrustedCertificates(myusr_path + "\\" + TRUST_STORE_LOCATION, "mytruststorealias", TRUST_STORE_PASSWORD);
-			
-			Configuration configuration = Configuration.createWithFile(Configuration.DEFAULT_FILE, "DTLS example server", DEFAULTS);
-			DtlsConnectorConfig.Builder builder = new DtlsConnectorConfig.Builder(configuration);
+		SslContextUtil.Credentials serverCredentials = null;
+		Certificate[] trustedCertificates = null;
 		
-			builder.setAddress(new InetSocketAddress(DEFAULT_PORT));	
-			builder.setCertificateIdentityProvider(new SingleCertificateProvider(serverCredentials.getPrivateKey(), serverCredentials.getCertificateChain(), CertificateType.RAW_PUBLIC_KEY));
-			builder.setAdvancedCertificateVerifier(StaticNewAdvancedCertificateVerifier.builder().setTrustedCertificates(trustedCertificates).setTrustAllRPKs().build());
-			
-			DTLSConnector dtlsConnector = new DTLSConnector(builder.build());
-				
-			CoapEndpoint.Builder coapBuilder = new CoapEndpoint.Builder().setConfiguration(configuration).setConnector(dtlsConnector);
-			CoapServer server = new CoapServer();
-			server.addEndpoint(coapBuilder.build());								// set DTLSConnector into a configuration into CoapEndpoint into CoapClient
-			
-			Cf_ObserverResource myobResc1 = new Cf_ObserverResource("Resource1");	//new resource
-			myobResc1.setStatusUpdateMaxTimes(35);
-			server.add(myobResc1);
-			
-			myobResc1.startResource();
-			server.start();
+		DefinitionsProvider DEFAULTS = new DefinitionsProvider() {
 
-			while (!myobResc1.isMyDone()) {
-				try {
-					Thread.sleep(200);
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-				}
-
+			@Override
+			public void applyDefinitions(Configuration config) {
+				config.set(DtlsConfig.DTLS_CONNECTION_ID_LENGTH, 6);
+				config.set(DtlsConfig.DTLS_RECOMMENDED_CIPHER_SUITES_ONLY, false);
 			}
 
-			myobResc1.stopResource();
-			try {
-				Thread.sleep(500);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-			// destory 可以结束程序, 但是stop不可以
-			//server.destroy();
-			//server.stop();
-			server.destroy();
+		};
+		
+		try {	
+			serverCredentials = SslContextUtil.loadCredentials(myusr_path + "\\" + KEY_STORE_LOCATION, "mykeystorealias", KEY_STORE_PASSWORD, KEY_STORE_PASSWORD);
+			trustedCertificates = SslContextUtil.loadTrustedCertificates(myusr_path + "\\" + TRUST_STORE_LOCATION, "mytruststorealias", TRUST_STORE_PASSWORD);
 		} catch (IOException e1) {
 			e1.printStackTrace();
 		} catch (GeneralSecurityException e1) {
 			e1.printStackTrace();
 		}
+		
+		Configuration configuration = Configuration.createWithFile(Configuration.DEFAULT_FILE, "DTLS example server", DEFAULTS);
+		DtlsConnectorConfig.Builder builder = new DtlsConnectorConfig.Builder(configuration);
+
+		builder.setAddress(new InetSocketAddress(DEFAULT_PORT));	
+		builder.setCertificateIdentityProvider(new SingleCertificateProvider(serverCredentials.getPrivateKey(), serverCredentials.getCertificateChain(), CertificateType.RAW_PUBLIC_KEY));
+		builder.setAdvancedCertificateVerifier(StaticNewAdvancedCertificateVerifier.builder().setTrustedCertificates(trustedCertificates).setTrustAllRPKs().build());
+		
+		DTLSConnector dtlsConnector = new DTLSConnector(builder.build());
+
+		CoapEndpoint.Builder coapBuilder = new CoapEndpoint.Builder().setConfiguration(configuration).setConnector(dtlsConnector);
+		CoapServer server = new CoapServer();
+		server.addEndpoint(coapBuilder.build());								// set DTLSConnector into a configuration into CoapEndpoint into CoapClient
+		
+		Cf_ObserverResource myobResc1 = new Cf_ObserverResource("Resource1");	//new resource
+		myobResc1.setStatusUpdateMaxTimes(35);
+		server.add(myobResc1);
+		
+		myobResc1.startResource();
+		server.start();
+
+		while (!myobResc1.isMyDone()) {
+			try {
+				Thread.sleep(200);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+
+		}
+
+		myobResc1.stopResource();
+		try {
+			Thread.sleep(500);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		// destory 可以结束程序, 但是stop不可以
+		//server.destroy();
+		//server.stop();
+		server.destroy();
+
 	}
 }

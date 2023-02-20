@@ -39,6 +39,8 @@ public class TestMain_Cf_Obs_Client {
     	String KEY_STORE_LOCATION = "mycerts/californium/client/my_own/myclientakeystore.jks";
     	char[] KEY_STORE_PASSWORD = "CksOneAdmin".toCharArray();
 		
+    	SslContextUtil.Credentials clientCredentials = null;
+    	
 		DefinitionsProvider DEFAULTS = new DefinitionsProvider() {
 
 			@Override
@@ -49,48 +51,48 @@ public class TestMain_Cf_Obs_Client {
 
 		};
 		
+		
 		try {
-			SslContextUtil.Credentials clientCredentials = SslContextUtil.loadCredentials(myusr_path + "\\" + KEY_STORE_LOCATION, "myclientakeystorealias", KEY_STORE_PASSWORD, KEY_STORE_PASSWORD);
-			
-			Configuration configuration = Configuration.createWithFile(Configuration.DEFAULT_FILE, "DTLS example client", DEFAULTS);
-			DtlsConnectorConfig.Builder builder = DtlsConnectorConfig.builder(configuration);
-			builder.setCertificateIdentityProvider(new SingleCertificateProvider(clientCredentials.getPrivateKey(), clientCredentials.getCertificateChain(), CertificateType.RAW_PUBLIC_KEY));
-			builder.setAdvancedCertificateVerifier(StaticNewAdvancedCertificateVerifier.builder().setTrustAllRPKs().build());
-			
-			DTLSConnector dtlsConnector = new DTLSConnector(builder.build());		// new DTLS Connector
-
-	    	CoapClient client = new CoapClient("coaps://localhost:5684/Resource1");	// new client
-			CoapEndpoint.Builder coapEndPointBuilder = new CoapEndpoint.Builder().setConfiguration(configuration).setConnector(dtlsConnector);
-
-			client.setEndpoint(coapEndPointBuilder.build());						// set DTLSConnector into a configuration into CoapEndpoint into CoapClient
-			
-			CoapHandler  myObserveHandler = new CoapHandler() {
-				@Override
-				public void onLoad(CoapResponse response) {
-					System.out.println(response.getResponseText());
-					numberOfMessages = numberOfMessages + 1;
-				}
-
-				@Override
-				public void onError() {
-				}
-			};	
-	
-	        client.observe(myObserveHandler);
-
-			while (numberOfMessages < expectedNumberOfMessages) {
-				try {
-					Thread.sleep(200);
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
-			client.shutdown();
-		} catch (IOException e1) {
-			e1.printStackTrace();
-		} catch (GeneralSecurityException e1) {
+			clientCredentials = SslContextUtil.loadCredentials(myusr_path + "\\" + KEY_STORE_LOCATION, "myclientakeystorealias", KEY_STORE_PASSWORD, KEY_STORE_PASSWORD);
+		} catch (IOException | GeneralSecurityException e1) {
+			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
+
+		Configuration configuration = Configuration.createWithFile(Configuration.DEFAULT_FILE, "DTLS example client", DEFAULTS);
+		DtlsConnectorConfig.Builder builder = DtlsConnectorConfig.builder(configuration);
+		builder.setCertificateIdentityProvider(new SingleCertificateProvider(clientCredentials.getPrivateKey(), clientCredentials.getCertificateChain(), CertificateType.RAW_PUBLIC_KEY));
+		builder.setAdvancedCertificateVerifier(StaticNewAdvancedCertificateVerifier.builder().setTrustAllRPKs().build());
+		
+		DTLSConnector dtlsConnector = new DTLSConnector(builder.build());		// new DTLS Connector
+
+    	CoapClient client = new CoapClient("coaps://localhost:5684/Resource1");	// new client
+		CoapEndpoint.Builder coapEndPointBuilder = new CoapEndpoint.Builder().setConfiguration(configuration).setConnector(dtlsConnector);
+
+		client.setEndpoint(coapEndPointBuilder.build());						// set DTLSConnector into a configuration into CoapEndpoint into CoapClient
+		
+		CoapHandler  myObserveHandler = new CoapHandler() {
+			@Override
+			public void onLoad(CoapResponse response) {
+				System.out.println(response.getResponseText());
+				numberOfMessages = numberOfMessages + 1;
+			}
+
+			@Override
+			public void onError() {
+			}
+		};	
+
+        client.observe(myObserveHandler);
+
+		while (numberOfMessages < expectedNumberOfMessages) {
+			try {
+				Thread.sleep(200);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
+		client.shutdown();
+
 	}
 }

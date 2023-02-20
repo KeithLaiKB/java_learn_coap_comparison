@@ -37,7 +37,6 @@ public class TestMain_JavaCoap_Obs_Client {
 		try {
 			client = CoapClientBuilder.newBuilder(inetSocketAddr).build();
 		} catch (IOException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
 		
@@ -50,16 +49,9 @@ public class TestMain_JavaCoap_Obs_Client {
 				System.out.println(resp.get().getPayloadString().toString());
 				numberOfMessages = numberOfMessages +1;
 			}
-		} catch (CoapException e1) {
-			// TODO Auto-generated catch block
+		} catch (CoapException | InterruptedException | ExecutionException e1) {
 			e1.printStackTrace();
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (ExecutionException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		} 
 
         //---------------------------------------------
 		// 停留一段时间 让server继续运行
@@ -67,7 +59,6 @@ public class TestMain_JavaCoap_Obs_Client {
         	try {
 				Thread.sleep(200);
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
         }
