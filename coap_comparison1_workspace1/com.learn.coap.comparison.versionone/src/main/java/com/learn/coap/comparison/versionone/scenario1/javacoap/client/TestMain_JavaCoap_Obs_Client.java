@@ -46,7 +46,15 @@ public class TestMain_JavaCoap_Obs_Client {
 			resp = client.resource("/Resource1").observe(new MyObservationListener());
 			if(resp != null) {
 				//用来获取 第一次得到的数据
-				System.out.println(resp.get().getPayloadString().toString());
+				
+				if(resp.get().getPayloadString()!=null) {								//防止对面传空 对面传空 直接这么写里面的 会报错的, 所以它和californium 不太一样
+					System.out.println(resp.get().getPayloadString().toString());		
+				}
+				else {
+					System.out.println();	
+				}
+				//System.out.println(resp.get().getPayloadString().toString());
+				
 				numberOfMessages = numberOfMessages +1;
 			}
 		} catch (CoapException | InterruptedException | ExecutionException e1) {

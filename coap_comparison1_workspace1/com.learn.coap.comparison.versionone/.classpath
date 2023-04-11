@@ -35,6 +35,6 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/5"/>
-	<classpathentry kind="lib" path="E:/java-pelion-javacoap-official-eclipse-workspace/java-coap/coap-core/target/coap-core-5.1.0-SNAPSHOT.jar"/>
+	<classpathentry kind="lib" path="E:/java-pelion-javacoap-official-eclipse-workspace/java-coap/coap-core/target/coap-core-5.1.0-SNAPSHOT.jar" sourcepath="E:/java-pelion-javacoap-official-eclipse-workspace/java-coap/coap-core/target/coap-core-5.1.0-SNAPSHOT.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

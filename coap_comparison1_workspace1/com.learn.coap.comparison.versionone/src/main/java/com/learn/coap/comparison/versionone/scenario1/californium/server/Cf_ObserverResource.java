@@ -54,8 +54,9 @@ public class Cf_ObserverResource extends CoapResource {
 
 	@Override
 	public void handleGET(CoapExchange exchange) {
-		exchange.respond(ResponseCode.CONTENT, "Hello World!" + updateTask.getStatusUpdate(),
-				MediaTypeRegistry.TEXT_PLAIN);
+		exchange.respond(ResponseCode.CONTENT, "Hello World!" + updateTask.getStatusUpdate(),MediaTypeRegistry.TEXT_PLAIN);
+		//exchange.respond(ResponseCode.CONTENT, "",MediaTypeRegistry.TEXT_PLAIN);
+		//exchange.respond("");
 	}
 
 	// 这里 这个 statusUpdateMaxTimes 不可以用final来修饰
@@ -67,7 +68,8 @@ public class Cf_ObserverResource extends CoapResource {
 	}
 
 	public void startResource() {
-		this.timer.schedule(updateTask, 0, 500);
+		//this.timer.schedule(updateTask, 0, 500);
+		this.timer.schedule(updateTask, 0, 5000);
 	}
 
 	public void stopResource() {
