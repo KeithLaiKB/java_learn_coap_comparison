@@ -1,16 +1,11 @@
 package com.learn.coap.comparison.versionone.scenario1.javacoap.server;
 
 import java.io.IOException;
-import java.net.InetSocketAddress;
 
-import com.mbed.coap.exception.CoapException;
-import com.mbed.coap.observe.SimpleObservableResource;
-import com.mbed.coap.packet.BlockSize;
-import com.mbed.coap.packet.Code;
+
+
 import com.mbed.coap.server.CoapServer;
-import com.mbed.coap.server.CoapServerBuilder;
-import com.mbed.coap.transmission.SingleTimeout;
-import com.mbed.coap.transport.InMemoryCoapTransport;
+
 
 public class TestMain_JavaCoap_Obs_Server {
 	
@@ -21,7 +16,7 @@ public class TestMain_JavaCoap_Obs_Server {
 		// ref:java-coap/coap-core/src/test/java/protocolTests/ObservationTest.java 
 		CoapServer server = CoapServer.builder().transport(5683).build();			// create server
 		JavaCoap_ObserverResource myobResc1 = new JavaCoap_ObserverResource(server);	// create resource
-		myobResc1.setStatusUpdateMaxTimes(35);						// 因为我们想独立的设置次数, 而不想更改构造函数, 所以后面需要独立出来一个startMyResource 
+		myobResc1.setStatusUpdateMaxTimes(50);						// 因为我们想独立的设置次数, 而不想更改构造函数, 所以后面需要独立出来一个startMyResource 
 		server.addRequestHandler("/Resource1", myobResc1);								// add resoucre
 		
 		

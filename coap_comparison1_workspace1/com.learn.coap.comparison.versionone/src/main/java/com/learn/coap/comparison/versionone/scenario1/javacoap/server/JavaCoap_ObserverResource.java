@@ -7,7 +7,7 @@ import com.mbed.coap.CoapConstants;
 import com.mbed.coap.exception.CoapCodeException;
 import com.mbed.coap.exception.CoapException;
 import com.mbed.coap.observe.AbstractObservableResource;
-import com.mbed.coap.observe.NotificationDeliveryListener;
+
 import com.mbed.coap.packet.Code;
 import com.mbed.coap.packet.MediaTypes;
 import com.mbed.coap.server.CoapExchange;
@@ -92,8 +92,8 @@ public class JavaCoap_ObserverResource extends AbstractObservableResource{
 	}
 
 	public void startResource() {
-		//this.timer.schedule(updateTask, 0, 500);
-		this.timer.schedule(updateTask, 0, 5000);
+		this.timer.schedule(updateTask, 0, 500);
+		//this.timer.schedule(updateTask, 0, 5000);			//为了测试packet的
 	}
 
 	public void stopResource() {

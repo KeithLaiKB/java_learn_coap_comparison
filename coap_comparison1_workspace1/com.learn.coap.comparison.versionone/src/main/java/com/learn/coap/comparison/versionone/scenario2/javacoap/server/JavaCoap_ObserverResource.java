@@ -7,8 +7,7 @@ import com.mbed.coap.CoapConstants;
 import com.mbed.coap.exception.CoapCodeException;
 import com.mbed.coap.exception.CoapException;
 import com.mbed.coap.observe.AbstractObservableResource;
-import com.mbed.coap.observe.NotificationDeliveryListener;
-import com.mbed.coap.packet.Code;
+
 import com.mbed.coap.packet.MediaTypes;
 import com.mbed.coap.server.CoapExchange;
 import com.mbed.coap.server.CoapServer;

@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.security.GeneralSecurityException;
 import java.security.cert.Certificate;
-import java.util.Date;
+
 
 import org.eclipse.californium.core.CoapServer;
 import org.eclipse.californium.core.network.CoapEndpoint;
@@ -72,7 +72,7 @@ public class TestMain_Cf_Obs_Server {
 		server.addEndpoint(coapBuilder.build());								// set DTLSConnector into a configuration into CoapEndpoint into CoapClient
 		
 		Cf_ObserverResource myobResc1 = new Cf_ObserverResource("Resource1");	//new resource
-		myobResc1.setStatusUpdateMaxTimes(35);
+		myobResc1.setStatusUpdateMaxTimes(50);
 		server.add(myobResc1);
 		
 		myobResc1.startResource();

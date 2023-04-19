@@ -8,7 +8,7 @@ import java.net.InetSocketAddress;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 
-import com.learn.coap.comparison.versionone.scenario1.californium.client.TestMain_Cf_Obs_Client;
+
 import com.mbed.coap.client.CoapClient;
 import com.mbed.coap.client.CoapClientBuilder;
 import com.mbed.coap.client.ObservationListener;
@@ -24,7 +24,7 @@ public class TestMain_JavaCoap_Obs_Client {
 	private int expectedNumberOfMessages			= 30;
 	private int numberOfMessages 					= 0;
 	
-	private String clientSeq = null;
+	//private String clientSeq = null;
 	
 	
 	public static void main(String[] args) {

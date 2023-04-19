@@ -12,7 +12,7 @@ public class TestMain_Cf_Obs_Server {
 		CoapServer server = new CoapServer(5683);
 
 		Cf_ObserverResource myobResc1 = new Cf_ObserverResource("Resource1");		//new resource
-		myobResc1.setStatusUpdateMaxTimes(35);
+		myobResc1.setStatusUpdateMaxTimes(50);
 		server.add(myobResc1);
 		
 		myobResc1.startResource();

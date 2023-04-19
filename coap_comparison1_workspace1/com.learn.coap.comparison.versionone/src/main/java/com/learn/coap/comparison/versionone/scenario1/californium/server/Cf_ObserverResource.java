@@ -68,8 +68,8 @@ public class Cf_ObserverResource extends CoapResource {
 	}
 
 	public void startResource() {
-		//this.timer.schedule(updateTask, 0, 500);
-		this.timer.schedule(updateTask, 0, 5000);
+		this.timer.schedule(updateTask, 0, 500);
+		//this.timer.schedule(updateTask, 0, 5000);			//为了测试packet的			
 	}
 
 	public void stopResource() {

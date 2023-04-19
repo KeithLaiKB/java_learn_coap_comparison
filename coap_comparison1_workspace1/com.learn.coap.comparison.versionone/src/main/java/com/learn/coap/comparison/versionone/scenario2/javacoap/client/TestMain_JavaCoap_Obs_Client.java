@@ -41,7 +41,7 @@ public class TestMain_JavaCoap_Obs_Client {
 	private int expectedNumberOfMessages			= 30;
 	private int numberOfMessages 					= 0;
 	
-	private String clientSeq = null;
+	//private String clientSeq = null;
 	
 	
 	public static void main(String[] args) {

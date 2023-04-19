@@ -1,14 +1,13 @@
 package com.learn.coap.comparison.versionone.scenario2.californium.client;
 
 import java.io.IOException;
-import java.net.URI;
-import java.net.URISyntaxException;
+
 import java.security.GeneralSecurityException;
-import java.security.cert.Certificate;
+
 
 import org.eclipse.californium.core.CoapClient;
 import org.eclipse.californium.core.CoapHandler;
-import org.eclipse.californium.core.CoapObserveRelation;
+
 import org.eclipse.californium.core.CoapResponse;
 import org.eclipse.californium.core.network.CoapEndpoint;
 import org.eclipse.californium.elements.config.Configuration;
@@ -92,6 +91,7 @@ public class TestMain_Cf_Obs_Client {
 				e.printStackTrace();
 			}
 		}
+
 		client.shutdown();
 
 	}
