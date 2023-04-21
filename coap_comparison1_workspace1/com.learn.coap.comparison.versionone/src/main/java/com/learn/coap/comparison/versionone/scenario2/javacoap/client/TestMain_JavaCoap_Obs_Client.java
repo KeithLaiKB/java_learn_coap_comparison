@@ -117,13 +117,24 @@ public class TestMain_JavaCoap_Obs_Client {
 		// CoapServer
 		InetSocketAddress inetSocketAddr = new InetSocketAddress("127.0.0.1",5684);
 		CoapClient client = null;
-		try {
-			client = CoapClientBuilder.clientFor(inetSocketAddr,
-			        CoapServer.builder().transport(new SSLSocketClientTransport(inetSocketAddr, context.getSocketFactory(), CoapSerializer.UDP, false)).build().start()
-			);
-		} catch (IllegalStateException | IOException e2) {
-			e2.printStackTrace();
+		
+		//because in javacoap ssl condition, could not easily find a function that open client firstly
+		// because it might show connection refused if there is not a server_ssl has opened firstly
+		// so that is why I use a trick way to solve this condition
+		boolean connected = false;
+		// this server is used to Informs client if server is running
+		CoapServer coapserver_target=CoapServer.builder().transport(new SSLSocketClientTransport(inetSocketAddr, context.getSocketFactory(), CoapSerializer.UDP, false)).build();
+		while(connected==false) {
+			try {
+				//client = CoapClientBuilder.clientFor(inetSocketAddr,coapserver_target);			//这样还是不行的
+				client = CoapClientBuilder.clientFor(inetSocketAddr,coapserver_target.start()); 		//需要start才可以
+				connected = true;
+			}
+			catch(IllegalStateException | IOException e6) {
+				e6.printStackTrace();
+			}
 		}
+
 		
 		
 		CompletableFuture<CoapPacket> resp = null;
