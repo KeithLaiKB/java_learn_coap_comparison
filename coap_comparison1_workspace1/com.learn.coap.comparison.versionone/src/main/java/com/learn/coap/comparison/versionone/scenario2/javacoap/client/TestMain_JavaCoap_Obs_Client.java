@@ -130,7 +130,7 @@ public class TestMain_JavaCoap_Obs_Client {
 				client = CoapClientBuilder.clientFor(inetSocketAddr,coapserver_target.start()); 		//需要start才可以
 				connected = true;
 			}
-			catch(IllegalStateException | IOException e6) {
+			catch(IOException e6) {
 				e6.printStackTrace();
 			}
 		}
