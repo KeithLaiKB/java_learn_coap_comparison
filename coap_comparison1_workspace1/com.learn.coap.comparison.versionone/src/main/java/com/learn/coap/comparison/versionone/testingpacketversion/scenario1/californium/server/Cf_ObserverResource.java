@@ -54,7 +54,7 @@ public class Cf_ObserverResource extends CoapResource {
 
 	@Override
 	public void handleGET(CoapExchange exchange) {
-		exchange.respond(ResponseCode.CONTENT, "Hello World!" + updateTask.getStatusUpdate(),MediaTypeRegistry.TEXT_PLAIN);
+		exchange.respond(ResponseCode.CONTENT, "Hi!" + String.format("%07d", updateTask.getStatusUpdate()),MediaTypeRegistry.TEXT_PLAIN);
 		//exchange.respond(ResponseCode.CONTENT, "",MediaTypeRegistry.TEXT_PLAIN);
 		//exchange.respond("");
 	}
