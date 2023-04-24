@@ -35,7 +35,8 @@ public class JavaCoap_ObserverResource extends AbstractObservableResource{
 				statusUpdate = statusUpdate+1;
 				//System.out.println(content+":"+statusUpdate);
 				try {
-					notifyChange(new String("Hi!"+ String.format("%04d", statusUpdate)).getBytes(CoapConstants.DEFAULT_CHARSET),MediaTypes.CT_TEXT_PLAIN);
+					//notifyChange(new String("Hello World!"+statusUpdate).getBytes(CoapConstants.DEFAULT_CHARSET),MediaTypes.CT_TEXT_PLAIN);
+					notifyChange(new String("Hi!"+ String.format("%07d", statusUpdate)).getBytes(CoapConstants.DEFAULT_CHARSET),MediaTypes.CT_TEXT_PLAIN);
 				} catch (CoapException e) {
 					e.printStackTrace();
 				} 

@@ -36,7 +36,9 @@ public class JavaCoap_ObserverResource extends AbstractObservableResource{
 				statusUpdate = statusUpdate+1;
 				//System.out.println(content+":"+statusUpdate);
 				try {
+					//notifyChange(new String("Hello World!"+statusUpdate).getBytes(CoapConstants.DEFAULT_CHARSET),MediaTypes.CT_TEXT_PLAIN);
 					notifyChange(new String("Hi!"+ String.format("%07d", statusUpdate)).getBytes(CoapConstants.DEFAULT_CHARSET),MediaTypes.CT_TEXT_PLAIN);
+					
 					//notifyChange(new String("").getBytes(),MediaTypes.CT_TEXT_PLAIN); //不可以设置成null.getBytes
 					//notifyChange(null,MediaTypes.CT_TEXT_PLAIN); // 运行会错误
 					//notifyChange(null,null); 					// 运行会错误
