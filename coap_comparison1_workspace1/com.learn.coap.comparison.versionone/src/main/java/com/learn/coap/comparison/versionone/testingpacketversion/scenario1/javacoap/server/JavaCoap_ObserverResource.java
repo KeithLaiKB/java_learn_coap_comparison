@@ -74,7 +74,7 @@ public class JavaCoap_ObserverResource extends AbstractObservableResource{
 	
 	@Override
 	public void get(CoapExchange exchange) throws CoapCodeException {
-		exchange.setResponseBody("Hello World!"+updateTask.getStatusUpdate());
+		exchange.setResponseBody("Hi!"+ String.format("%07d", updateTask.getStatusUpdate()));
 		//exchange.setResponseBody("");
         exchange.getResponseHeaders().setContentFormat(MediaTypes.CT_TEXT_PLAIN);		//这个会影响到server to client的 ACK的包中 是否会有 option 关于content-format
         exchange.setResponseCode(Code.C205_CONTENT);									//虽然默认有 , 为了统一和谐

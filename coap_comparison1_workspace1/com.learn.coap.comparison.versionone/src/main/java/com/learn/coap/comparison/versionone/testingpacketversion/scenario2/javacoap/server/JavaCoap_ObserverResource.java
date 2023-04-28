@@ -70,7 +70,7 @@ public class JavaCoap_ObserverResource extends AbstractObservableResource{
 	
 	@Override
 	public void get(CoapExchange exchange) throws CoapCodeException {
-		exchange.setResponseBody("Hello World!"+updateTask.getStatusUpdate());
+		exchange.setResponseBody("Hi!"+ String.format("%07d", updateTask.getStatusUpdate()));
         exchange.getResponseHeaders().setContentFormat(MediaTypes.CT_TEXT_PLAIN);
         //exchange.setResponseCode(Code.C205_CONTENT);
         exchange.sendResponse();
