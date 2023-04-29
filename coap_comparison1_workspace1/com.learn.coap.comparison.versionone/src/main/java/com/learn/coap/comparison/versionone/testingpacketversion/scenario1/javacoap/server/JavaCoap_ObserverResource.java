@@ -16,7 +16,7 @@ import com.mbed.coap.server.CoapServer;
 public class JavaCoap_ObserverResource extends AbstractObservableResource{
 
 	private class UpdateTask extends TimerTask {
-		private int statusUpdateMaxTimes = 30;
+		private int statusUpdateMaxTimes = 200;
 		private int statusUpdate = 0;
 		private boolean rescDone = false;
 		
@@ -64,7 +64,10 @@ public class JavaCoap_ObserverResource extends AbstractObservableResource{
 	
 	public JavaCoap_ObserverResource(CoapServer coapServer) {
 		super(coapServer);
+		
 		this.setConNotifications(false);					// configure the notification type to NONs, 如果不写这个默认的是 CON
+		//this.setConNotifications(true);					// configure the notification type to NONs, 如果不写这个默认的是 CON
+		
 		//
 		timer = new Timer();								// schedule a periodic update task, otherwise let events call changed()
 		updateTask = new UpdateTask();

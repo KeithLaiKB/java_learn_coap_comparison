@@ -11,7 +11,7 @@ import org.eclipse.californium.core.server.resources.CoapExchange;
 
 public class Cf_ObserverResource extends CoapResource {
 	private class UpdateTask extends TimerTask {
-		private int statusUpdateMaxTimes = 30;
+		private int statusUpdateMaxTimes = 200;
 		private int statusUpdate = 0;
 		private boolean rescDone = false;
 
@@ -44,7 +44,10 @@ public class Cf_ObserverResource extends CoapResource {
 	public Cf_ObserverResource(String name) {
 		super(name);
 		this.setObservable(true);
+		
 		this.setObserveType(Type.NON);
+		//this.setObserveType(Type.CON);
+		
 		this.getAttributes().setObservable();
 
 		timer = new Timer();

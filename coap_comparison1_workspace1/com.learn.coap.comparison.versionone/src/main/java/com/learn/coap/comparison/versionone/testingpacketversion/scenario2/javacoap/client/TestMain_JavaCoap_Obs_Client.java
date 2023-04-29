@@ -38,8 +38,8 @@ import com.mbed.coap.transport.javassl.SSLSocketClientTransport;
  *
  */
 public class TestMain_JavaCoap_Obs_Client {
-	private int expectedNumberOfMessages			= 30;
-	private int numberOfMessages 					= 0;
+	private int expectedNumberOfMessages					= 100;
+	private volatile int numberOfMessages 					= 0;
 	
 	//private String clientSeq = null;
 	
@@ -153,11 +153,13 @@ public class TestMain_JavaCoap_Obs_Client {
         //---------------------------------------------
 		// 停留一段时间 让server继续运行
         while(numberOfMessages < expectedNumberOfMessages) {
-        	try {
+			/*
+			try {
 				Thread.sleep(200);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
+			*/
         }
         //
 		client.close();
