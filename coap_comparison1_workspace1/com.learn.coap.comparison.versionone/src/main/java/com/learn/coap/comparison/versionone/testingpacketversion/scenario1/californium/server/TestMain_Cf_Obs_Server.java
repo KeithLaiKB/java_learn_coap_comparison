@@ -24,6 +24,7 @@ public class TestMain_Cf_Obs_Server {
 		//这样会影响我测试NON,所以我改成999, 方便测试, 淡然你也可以改成其他数字
 		Configuration configuration = Configuration.getStandard();
 		configuration.set(CoapConfig.NOTIFICATION_CHECK_INTERVAL_COUNT, 999);
+		
 		CoapServer server = new CoapServer(configuration,5683);
 
 		Cf_ObserverResource myobResc1 = new Cf_ObserverResource("Resource1");		//new resource
