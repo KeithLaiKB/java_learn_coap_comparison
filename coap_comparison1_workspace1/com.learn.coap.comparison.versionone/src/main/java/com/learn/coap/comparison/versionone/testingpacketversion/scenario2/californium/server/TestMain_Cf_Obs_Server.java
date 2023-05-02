@@ -7,6 +7,7 @@ import java.security.cert.Certificate;
 
 
 import org.eclipse.californium.core.CoapServer;
+import org.eclipse.californium.core.config.CoapConfig;
 import org.eclipse.californium.core.network.CoapEndpoint;
 import org.eclipse.californium.elements.config.Configuration;
 import org.eclipse.californium.elements.config.Configuration.DefinitionsProvider;
@@ -59,6 +60,17 @@ public class TestMain_Cf_Obs_Server {
 		}
 		
 		Configuration configuration = Configuration.createWithFile(Configuration.DEFAULT_FILE, "DTLS example server", DEFAULTS);
+		
+		//ref:https://www.rfc-editor.org/rfc/rfc7641#section-4.5
+		// A server that transmits notifications mostly in non-confirmable
+		//  messages MUST send a notification in a confirmable message instead of
+		//  a non-confirmable message at least every 24 hours.  This prevents a
+		//  client that went away or is no longer interested from remaining in
+		//  the list of observers indefinitely.
+		//如果不这样设置, 如果使用的是non-confirmable message, 它默认每100条 就会发送一个CON(带内容)
+		//这样会影响我测试NON,所以我改成999, 方便测试, 淡然你也可以改成其他数字
+		configuration.set(CoapConfig.NOTIFICATION_CHECK_INTERVAL_COUNT, 999);				
+		
 		DtlsConnectorConfig.Builder builder = new DtlsConnectorConfig.Builder(configuration);
 
 		builder.setAddress(new InetSocketAddress(DEFAULT_PORT));	
